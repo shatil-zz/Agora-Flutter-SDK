@@ -42,7 +42,9 @@ public class AgoraRtcNgPlugin implements FlutterPlugin, MethodChannel.MethodCall
                         flutterPluginBinding.getBinaryMessenger(),
                         new AgoraPlatformViewFactory.PlatformViewProviderSurfaceView()));
 
-        videoViewController = new VideoViewController(flutterPluginBinding.getBinaryMessenger());
+        videoViewController = new VideoViewController(
+                flutterPluginBinding.getTextureRegistry(),
+                flutterPluginBinding.getBinaryMessenger());
     }
 
     @Override

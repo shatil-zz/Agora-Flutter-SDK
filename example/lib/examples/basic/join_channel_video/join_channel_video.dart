@@ -21,7 +21,7 @@ class _State extends State<JoinChannelVideo> {
   bool isJoined = false, switchCamera = true, switchRender = true;
   Set<int> remoteUid = {};
   late TextEditingController _controller;
-  bool _isUseFlutterTexture = false;
+  bool _isUseFlutterTexture = true;
   bool _isUseAndroidSurfaceView = false;
   ChannelProfileType _channelProfileType =
       ChannelProfileType.channelProfileLiveBroadcasting;
@@ -88,6 +88,14 @@ class _State extends State<JoinChannelVideo> {
     ));
 
     await _engine.enableVideo();
+
+    await _engine.setVideoEncoderConfiguration(
+      const VideoEncoderConfiguration(
+        dimensions: VideoDimensions(width: 640, height: 360),
+        frameRate: 15,
+        bitrate: 0,
+      ),
+    );
   }
 
   Future<void> _joinChannel() async {

@@ -32,11 +32,6 @@ class AgoraVideoViewState extends State<AgoraVideoView> {
     }
 
     if (widget.controller.useFlutterTexture) {
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        return const Text(
-            'Flutter texture render is not supported on Android.');
-      }
-
       return AgoraRtcRenderTexture(
         key: widget.key,
         controller: widget.controller,
@@ -276,7 +271,7 @@ class _AgoraRtcRenderTextureState extends State<AgoraRtcRenderTexture>
         return true;
       }
       return false;
-    });
+        });
   }
 
   Widget _applyRenderMode(RenderModeType renderMode, Widget child) {
