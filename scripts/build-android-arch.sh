@@ -20,7 +20,7 @@ build() {
     -DANDROID_NDK="$ANDROID_NDK" \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK"/build/cmake/android.toolchain.cmake \
     -DANDROID_TOOLCHAIN=clang \
-    -DANDROID_PLATFORM=android-16 \
+    -DANDROID_PLATFORM=android-18 \
     -DCMAKE_BUILD_TYPE="$2" \
     "$root_path"
   cmake --build . --config "$2"

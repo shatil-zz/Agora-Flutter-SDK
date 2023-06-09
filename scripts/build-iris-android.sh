@@ -11,7 +11,8 @@ IRIS_TYPE="dcg"
 NATIVE_SDK_PATH_NAME=$3 # Agora_Native_SDK_for_Mac_rel.v3.8.201.2_39877_full_20220608_2158
 SCRIPTS_PATH=$(dirname "$0")
 
-bash $SCRIPTS_PATH/build-android-arch.sh $IRIS_PROJECT_PATH ALL $BUILD_TYPE
+bash ${IRIS_PROJECT_PATH}/dcg/ci/build-android.sh buildALL $BUILD_TYPE
+# bash $SCRIPTS_PATH/build-android-arch.sh $IRIS_PROJECT_PATH ALL $BUILD_TYPE
 
 for ABI in ${ABIS};
 do
@@ -21,6 +22,12 @@ do
      
     cp -RP "$IRIS_PROJECT_PATH/build/android/ALL_ARCHITECTURE/output/$IRIS_TYPE/$BUILD_TYPE/$ABI/libAgoraRtcWrapper.so" \
           "$AGORA_FLUTTER_PROJECT_PATH/android/libs/$ABI/libAgoraRtcWrapper.so" 
+
+    # build/android/ALL_ARCHITECTURE/output/dcg/Release/arm64-v8a/libAgoraRtcWrapperSymbol.so
+    if [ -f "${IRIS_PROJECT_PATH}/build/android/ALL_ARCHITECTURE/output/${IRIS_TYPE}/${BUILD_TYPE}/${ABI}/libAgoraRtcWrapperSymbol.so" ]; then
+        cp -RP "$IRIS_PROJECT_PATH/build/android/ALL_ARCHITECTURE/output/$IRIS_TYPE/$BUILD_TYPE/$ABI/libAgoraRtcWrapperSymbol.so" \
+          "$AGORA_FLUTTER_PROJECT_PATH/android/libs/$ABI/libAgoraRtcWrapperSymbol.so"
+    fi
 
     if [ -f "${IRIS_PROJECT_PATH}/build/android/ALL_ARCHITECTURE/output/${IRIS_TYPE}/${BUILD_TYPE}/${ABI}/libIrisDebugger.so" ]; then
         mkdir -p ${AGORA_FLUTTER_PROJECT_PATH}/test_shard/iris_tester/android/libs/${ABI}
