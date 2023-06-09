@@ -185,7 +185,7 @@ class RtcEngineImpl extends rtc_engine_ex_binding.RtcEngineExImpl
   DirectCdnStreamingEventHandlerWrapper? _directCdnStreamingEventHandlerWrapper;
 
   @internal
-  late MethodChannel engineMethodChannel;
+  MethodChannel? engineMethodChannel;
 
   static RtcEngineEx create({IrisMethodChannel? irisMethodChannel}) {
     if (_instance != null) return _instance!;
@@ -238,7 +238,7 @@ class RtcEngineImpl extends rtc_engine_ex_binding.RtcEngineExImpl
     String externalFilesDir = '';
     if (defaultTargetPlatform == TargetPlatform.android) {
       final androidInitResult =
-          await engineMethodChannel.invokeMethod('androidInit');
+          await engineMethodChannel?.invokeMethod('androidInit');
       externalFilesDir = androidInitResult['externalFilesDir'] ?? '';
     }
 
@@ -297,13 +297,15 @@ class RtcEngineImpl extends rtc_engine_ex_binding.RtcEngineExImpl
 
     await _objectPool.clear();
 
-    await _globalVideoViewController!
-        .detachVideoFrameBufferManager(irisMethodChannel.getNativeHandle());
+    await _globalVideoViewController
+        ?.detachVideoFrameBufferManager(irisMethodChannel.getNativeHandle());
     _globalVideoViewController = null;
 
     await super.release(sync: sync);
 
-    irisMethodChannel.removeHotRestartListener(_hotRestartListener);
+    if (irisMethodChannel.getNativeHandle() != 0) {
+      irisMethodChannel.removeHotRestartListener(_hotRestartListener);
+    }
 
     await irisMethodChannel.dispose();
     _isReleased = true;
